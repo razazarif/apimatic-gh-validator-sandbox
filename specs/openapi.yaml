@@ -9,3 +9,9 @@ paths:
       responses:
         "200":
           description: "OK"
+  /version:
+    get:
+      summary: "Get API version"
+      responses:
+        "200":
+          description: "Returns version info"
