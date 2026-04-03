@@ -9,3 +9,17 @@ paths:
       responses:
         "200":
           description: "Success"
+  /offers/{id}:
+    get:
+      summary: "Get a capital offer by ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Success"
+        "404":
+          description: "Not found"
