@@ -1,0 +1,11 @@
+openapi: "3.0.0"
+info:
+  title: "Capital Offer API"
+  version: "1.0.0"
+paths:
+  /offers:
+    get:
+      summary: "List capital offers"
+      responses:
+        "200":
+          description: "Success"
