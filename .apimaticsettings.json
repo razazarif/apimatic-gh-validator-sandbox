@@ -1,7 +1,5 @@
 {
-  "OpenapiDefinitionPaths": [
-    "ben/capital.offer.created",
-    "specs/openapi.yaml",
-    "my.api"
+  "OpenAPIDefinitionPaths": [
+    "specs/invalid.yaml"
   ]
 }
