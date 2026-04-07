@@ -1,0 +1,18 @@
+openapi: '3.0.0'
+info:
+  title: Split Petstore API
+  description: A multi-file OpenAPI definition using external $ref references.
+  version: '1.0.0'
+servers:
+  - url: https://api.petstore.example.com/v1
+paths:
+  /pets:
+    $ref: './paths/pets.yaml'
+  /pets/{petId}:
+    $ref: './paths/pet.yaml'
+components:
+  schemas:
+    Pet:
+      $ref: './components/schemas/Pet.yaml'
+    NewPet:
+      $ref: './components/schemas/NewPet.yaml'
