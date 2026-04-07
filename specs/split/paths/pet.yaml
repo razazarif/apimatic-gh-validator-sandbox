@@ -1,0 +1,18 @@
+get:
+  operationId: getPet
+  summary: Get a pet by ID
+  parameters:
+    - name: petId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: A single pet
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/Pet.yaml'
+    '404':
+      description: Pet not found
