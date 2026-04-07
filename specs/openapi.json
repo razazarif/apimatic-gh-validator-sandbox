@@ -1,0 +1,59 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "JSON Format API",
+    "description": "OpenAPI definition in JSON format to verify the linter handles .json files correctly.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com/v1"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "listUsers",
+        "summary": "List all users",
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": [
+          "id",
+          "email"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
