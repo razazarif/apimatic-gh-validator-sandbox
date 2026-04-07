@@ -2,7 +2,7 @@ openapi: '3.0.0'
 info:
   title: Sample API
   description: A sample OpenAPI specification for testing APIMatic GitHub App path classification.
-  version: '1.0.0'
+  version: '1.0.1'
 servers:
   - url: https://api.example.com/v1
 paths:
@@ -35,4 +35,4 @@ paths:
                 properties:
                   version:
                     type: string
-                    example: '1.0.0'
+                    example: '1.0.1'
