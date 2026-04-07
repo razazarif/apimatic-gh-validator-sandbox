@@ -1,0 +1,26 @@
+openapi: '3.0.0'
+info:
+  title: Auto-Detected API
+  description: >
+    This spec has no .apimaticsettings.json config.
+    The APIMatic GitHub App should auto-detect this file
+    as a modified OpenAPI definition and validate it.
+  version: '1.0.0'
+servers:
+  - url: https://api.example.com/v1
+paths:
+  /status:
+    get:
+      operationId: getStatus
+      summary: Get API status
+      responses:
+        '200':
+          description: API is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
