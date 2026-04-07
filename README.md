@@ -15,3 +15,8 @@ Each scenario branch targets a different path type and becomes a PR that trigger
 
 `Path.HasExtension("ben/capital.offer.created")` returns `true` because of the dots,
 causing the path to be misrouted as a file. Fix tracked in apimatic/apimatic-common#1283.
+
+## CI
+
+Every PR runs the `Path Classification Tests` workflow which validates `IsOpenApiFilePath`
+logic against all paths in `.apimaticsettings.json`.
