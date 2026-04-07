@@ -1,0 +1,18 @@
+openapi: '3.0.0'
+info:
+  title: Malformed API
+  # version is intentionally missing — required field
+paths:
+  /broken:
+    get:
+      # operationId is missing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: INVALID_TYPE   # not a valid OpenAPI type
