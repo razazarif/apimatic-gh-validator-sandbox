@@ -1,0 +1,30 @@
+get:
+  operationId: listPets
+  summary: List all pets
+  parameters:
+    - name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: A list of pets
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../components/schemas/Pet.yaml'
+post:
+  operationId: createPet
+  summary: Create a pet
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/NewPet.yaml'
+  responses:
+    '201':
+      description: Pet created
