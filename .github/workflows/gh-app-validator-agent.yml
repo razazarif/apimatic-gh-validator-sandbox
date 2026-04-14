@@ -1,0 +1,54 @@
+name: APIMatic GitHub App Validator Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_env:
+        description: APIMatic app environment to test against
+        required: true
+        type: choice
+        options:
+          - dev
+          - prod
+        default: dev
+      scenario_ids:
+        description: >
+          Comma-separated scenario IDs to run (leave blank for all).
+          Example: TC-01,TC-02
+        required: false
+        default: ''
+
+jobs:
+  validate:
+    name: Run validation agent
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install agent dependencies
+        working-directory: agent
+        run: npm install
+
+      - name: Run validation agent
+        working-directory: agent
+        env:
+          GITHUB_TOKEN: ${{ secrets.AGENT_GITHUB_TOKEN }}
+          GH_APP_ENV: ${{ github.event.inputs.app_env }}
+          GH_VALIDATOR_REPO_WITH_SETTINGS: razazarif/apimatic-gh-validator-sandbox
+          GH_VALIDATOR_REPO_WITHOUT_SETTINGS: razazarif/apimatic-gh-validator-no-settings
+          SCENARIO_IDS: ${{ github.event.inputs.scenario_ids }}
+        run: npm run run
+
+      - name: Upload run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-run-log
+          path: agent/
+          retention-days: 30
