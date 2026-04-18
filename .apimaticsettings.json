@@ -1,7 +1,9 @@
 {
-  "OpenapiDefinitionPaths": [
-    "ben/capital.offer.created",
-    "specs/openapi.yaml",
-    "my.api"
+  "OpenAPIDefinitionPaths": [
+    "specs/unified.yaml",
+    "specs/skip-me.yaml"
+  ],
+  "SkipOpenAPIDefinitionPaths": [
+    "specs/skip-me.yaml"
   ]
 }
