@@ -5,11 +5,10 @@
  *  - which repo to target
  *  - which file to make a dummy change to (the "trigger file")
  *  - the expected APIMatic check-run conclusion
- *  - an optional assertion on the PR comment body
  *
- * APP_ENV controls which app slug is polled:
- *   dev  → apimatic-openapi-linter-dev
- *   prod → apimatic-openapi-linter
+ * Validation message counts (errors / warnings / info / total) are asserted
+ * via baselines.json rather than hardcoded predicates. Run with
+ * CAPTURE_BASELINE=true once to capture, then commit baselines.json.
  */
 
 import type { CheckConclusion } from './github.js';
@@ -22,11 +21,6 @@ export interface Scenario {
   /** File to append a dummy comment to so the PR has a real diff. */
   triggerFile: string;
   expectedConclusion: CheckConclusion;
-  /**
-   * Optional predicate on the first APIMatic PR comment body.
-   * Return true if the comment is acceptable, false to fail the assertion.
-   */
-  validateComment?: (body: string) => boolean;
 }
 
 export function buildScenarios(
@@ -43,8 +37,6 @@ export function buildScenarios(
       repo: withSettingsRepo,
       triggerFile: 'specs/openapi.yaml',
       expectedConclusion: 'failure',
-      validateComment: (body) =>
-        body.includes('OpenAPI Validation') && body.includes('Validation failed'),
     },
 
     {
@@ -55,11 +47,8 @@ export function buildScenarios(
       repo: withSettingsRepo,
       triggerFile: 'ben/capital.offer.created/openapi.yaml',
       expectedConclusion: 'failure',
-      // Key assertion: the PR comment mentions the spec title found INSIDE the directory.
-      // This proves the directory handler was invoked (not the file handler, which would
-      // have crashed trying to open the directory as a stream).
-      validateComment: (body) =>
-        body.includes('OpenAPI Validation') && body.includes('Capital Offer API'),
+      // specName "Capital Offer API" captured in baseline proves directory handler was
+      // invoked, not the file handler (regression guard for #1283).
     },
 
     {
@@ -69,7 +58,6 @@ export function buildScenarios(
       repo: withSettingsRepo,
       triggerFile: 'my.api/spec.yaml',
       expectedConclusion: 'failure',
-      validateComment: (body) => body.includes('OpenAPI Validation'),
     },
 
     {
@@ -79,8 +67,6 @@ export function buildScenarios(
       repo: withSettingsRepo,
       triggerFile: 'README.md',
       expectedConclusion: 'neutral',
-      // App posts no comment when conclusion is neutral.
-      validateComment: undefined,
     },
 
     // ── Without .apimaticsettings.json (auto-detection) ──────────────────────
@@ -92,21 +78,15 @@ export function buildScenarios(
       repo: noSettingsRepo,
       triggerFile: 'specs/invalid.yaml',
       expectedConclusion: 'failure',
-      validateComment: (body) =>
-        body.includes('OpenAPI Validation') && body.includes('Validation failed'),
     },
 
     {
       id: 'TC-06',
       description:
-        'Auto-detection: valid unified spec (specs/unified.yaml) — check run completes ' +
-        '[expected conclusion calibrated on first run; update to "success" once confirmed]',
+        'Auto-detection: valid unified spec (specs/unified.yaml) — check run completes',
       repo: noSettingsRepo,
       triggerFile: 'specs/unified.yaml',
-      // APIMatic validation may flag warnings-as-errors. Accept 'failure' on first run
-      // and update to 'success' once the spec is confirmed clean by APIMatic.
       expectedConclusion: 'failure',
-      validateComment: (body) => body.includes('OpenAPI Validation'),
     },
 
     {
@@ -116,7 +96,6 @@ export function buildScenarios(
       repo: noSettingsRepo,
       triggerFile: 'README.md',
       expectedConclusion: 'neutral',
-      validateComment: undefined,
     },
   ];
 }
