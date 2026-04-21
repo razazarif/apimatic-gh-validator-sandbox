@@ -223,3 +223,37 @@ export async function getPRComments(
   const res = await gh('GET', `/repos/${owner}/${repo}/issues/${prNumber}/comments`, token);
   return res.json() as Promise<Array<{ body: string; user: { login: string } }>>;
 }
+
+// ── Validation summary parser ────────────────────────────────────────────────
+
+export interface ValidationSummary {
+  specName: string;
+  errors: number;
+  warnings: number;
+  information: number;
+  totalMessages: number;
+}
+
+/**
+ * Parses the APIMatic GH App validator PR comment into a structured summary.
+ * Returns null if the comment is not a validation summary (e.g. neutral scenarios).
+ */
+export function parseValidationSummary(body: string): ValidationSummary | null {
+  if (!body.includes('OpenAPI Validation')) return null;
+
+  const specNameMatch = body.match(/Quick Validation Summary for <b>(.+?)<\/b>/);
+  const errorsMatch = body.match(/Errors\*\*\s*\|\s*(\d+)/);
+  const warningsMatch = body.match(/Warnings\*\*\s*\|\s*(\d+)/);
+  const infoMatch = body.match(/Information\*\*\s*\|\s*(\d+)/);
+  const totalMatch = body.match(/Total Messages\*\*\s*\|\s*(\d+)/);
+
+  if (!errorsMatch || !warningsMatch || !infoMatch || !totalMatch) return null;
+
+  return {
+    specName: specNameMatch?.[1] ?? '',
+    errors: parseInt(errorsMatch[1], 10),
+    warnings: parseInt(warningsMatch[1], 10),
+    information: parseInt(infoMatch[1], 10),
+    totalMessages: parseInt(totalMatch[1], 10),
+  };
+}
