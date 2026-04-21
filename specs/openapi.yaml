@@ -36,3 +36,4 @@ paths:
                   version:
                     type: string
                     example: '1.0.0'
+# agent-trigger: 2026-04-21T05:13:43.111Z
