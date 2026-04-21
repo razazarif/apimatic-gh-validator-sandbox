@@ -1,0 +1,39 @@
+{
+  "TC-01": {
+    "specName": "Sample API",
+    "errors": 1,
+    "warnings": 5,
+    "information": 9,
+    "totalMessages": 15
+  },
+  "TC-02": {
+    "specName": "Capital Offer API",
+    "errors": 2,
+    "warnings": 2,
+    "information": 2,
+    "totalMessages": 6
+  },
+  "TC-03": {
+    "specName": "My API",
+    "errors": 2,
+    "warnings": 2,
+    "information": 3,
+    "totalMessages": 7
+  },
+  "TC-04": null,
+  "TC-05": {
+    "specName": "Malformed API",
+    "errors": 4,
+    "warnings": 3,
+    "information": 8,
+    "totalMessages": 15
+  },
+  "TC-06": {
+    "specName": "Unified Petstore API",
+    "errors": 1,
+    "warnings": 5,
+    "information": 32,
+    "totalMessages": 38
+  },
+  "TC-07": null
+}
