@@ -9,3 +9,4 @@ paths:
       responses:
         "200":
           description: "Pong"
+# agent-trigger: 2026-04-23T05:52:51.028Z
