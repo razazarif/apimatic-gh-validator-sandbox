@@ -15,3 +15,5 @@ Each scenario branch targets a different path type and becomes a PR that trigger
 
 `Path.HasExtension("ben/capital.offer.created")` returns `true` because of the dots,
 causing the path to be misrouted as a file. Fix tracked in apimatic/apimatic-common#1283.
+
+<!-- agent-trigger: 2026-04-23T06:05:38.852Z -->
